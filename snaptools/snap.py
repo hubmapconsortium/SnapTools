@@ -721,7 +721,6 @@ def getFragFromBarcode(fname, barcode_list, barcode_dict):
         barcode_len_list.append(barcode_len);
     barcode_pos_list = list(itertools.chain.from_iterable(barcode_pos_list));
     _chroms = [item.decode() for item in f["FM"]["fragChrom"][barcode_pos_list]];
-    _chroms = [item for item in f["FM"]["fragChrom"][barcode_pos_list]];
     _start = f["FM"]["fragStart"][barcode_pos_list];
     _end = _start + f["FM"]["fragLen"][barcode_pos_list];
     _barcode = [[barcode] * num for (barcode, num) in zip(barcode_list, barcode_len_list)];

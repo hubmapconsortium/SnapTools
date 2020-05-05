@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-""" 
+"""
 
 The MIT License
 
@@ -25,7 +25,8 @@ THE SOFTWARE.
 
 """
 
-import sys, os 
+import sys
+import os
 import collections
 import gzip
 import operator
@@ -74,23 +75,19 @@ except Exception:
     print("Package pybedtools not installed!")
     sys.exit(1)
 
-def snap_gmat(snap_file,
-              gene_file,
-              buffer_size,
-              tmp_folder,
-              verbose):
-              
+
+def snap_gmat(snap_file, gene_file, buffer_size, tmp_folder, verbose):
     """
     Create a cell x peak matrix from snap file.
 
     Required:
     --------
-    snap_file: 
+    snap_file:
         a snap format file;
 
-    gene_file: 
+    gene_file:
         a bed format file contains gene locations;
-    
+
     Optional:
     --------
     tmp_folder:
@@ -101,73 +98,89 @@ def snap_gmat(snap_file,
     """
 
     if not os.path.exists(snap_file):
-        print(('error: ' + snap_file + ' does not exist!'))
-        sys.exit(1);
-    
+        print(("error: " + snap_file + " does not exist!"))
+        sys.exit(1)
+
     # check if snap_file is a snap-format file
-    file_format = snaptools.utilities.checkFileFormat(snap_file);
+    file_format = snaptools.utilities.checkFileFormat(snap_file)
     if file_format != "snap":
-        print(("error: input file %s is not a snap file!" % snap_file));
-    
+        print(("error: input file %s is not a snap file!" % snap_file))
+
     if not os.path.exists(gene_file):
-        print(('error: ' + gene_file + ' does not exist!'));
-        sys.exit(1);
-    
+        print(("error: " + gene_file + " does not exist!"))
+        sys.exit(1)
+
     # check if GM session already exists
-    f = h5py.File(snap_file, "r", libver='earliest');
+    f = h5py.File(snap_file, "r", libver="earliest")
     if "GM" in f:
-        print(("error: cell x gene matrix already exists, delete it first using snap-del"));
-        sys.exit(1);
-    f.close();
-    
+        print(
+            ("error: cell x gene matrix already exists, delete it first using snap-del")
+        )
+        sys.exit(1)
+    f.close()
+
     # check if snap_file is a snap-format file
-    file_format = snaptools.utilities.checkFileFormat(gene_file);
+    file_format = snaptools.utilities.checkFileFormat(gene_file)
     if file_format != "bed":
-        print(("error: input file %s is not a bed file!" % snap_file));
+        print(("error: input file %s is not a bed file!" % snap_file))
 
     # check if gene file is a bed file with the last column as gene
-    gene_list = set([str(item.name) for item in pybedtools.BedTool(gene_file)]);    
-    #gene_dict = collections.OrderedDict(list(zip(gene_list, range(1, len(gene_list) + 1))));
-    gene_dict = collections.OrderedDict(list(zip(gene_list, list(range(1, len(gene_list) + 1)))));    
-    
+    gene_list = set([str(item.name) for item in pybedtools.BedTool(gene_file)])
+    # gene_dict = collections.OrderedDict(list(zip(gene_list, range(1, len(gene_list) + 1))));
+    gene_dict = collections.OrderedDict(
+        list(zip(gene_list, list(range(1, len(gene_list) + 1))))
+    )
+
     # extract the barcodes
-    barcode_dict = getBarcodesFromSnap(snap_file);
-        
+    barcode_dict = getBarcodesFromSnap(snap_file)
+
     # first cut the fragments into small piecies, write them down
-    fout_frag = tempfile.NamedTemporaryFile(delete=False, dir=tmp_folder);
-    dump_read(snap_file, fout_frag.name, buffer_size, None, tmp_folder, True);
+    fout_frag = tempfile.NamedTemporaryFile(delete=False, dir=tmp_folder)
+    dump_read(snap_file, fout_frag.name, buffer_size, None, tmp_folder, True)
 
     # in parallel find the overlap cell and peaks
-    frag_bt = pybedtools.BedTool(fout_frag.name); 
-    peak_bt = pybedtools.BedTool(gene_file);      
-    
-    # count for frequency            
-    cell_peak_arr = collections.defaultdict(list);            
+    frag_bt = pybedtools.BedTool(fout_frag.name)
+    peak_bt = pybedtools.BedTool(gene_file)
+
+    # count for frequency
+    cell_peak_arr = collections.defaultdict(list)
     for item in frag_bt.intersect(peak_bt, wa=True, wb=True):
-        key = str(item.fields[7]);
+        key = str(item.fields[7])
         if key in gene_dict:
-            idy = gene_dict[key];
-            barcode = item.name.split(":")[0];
-            idx = barcode_dict[barcode].id;
-            cell_peak_arr[idx].append(idy);        
-    
-    IDX_LIST = [];
-    IDY_LIST = [];
-    VAL_LIST = [];
+            idy = gene_dict[key]
+            barcode = item.name.split(":")[0]
+            idx = barcode_dict[barcode].id
+            cell_peak_arr[idx].append(idy)
+
+    IDX_LIST = []
+    IDY_LIST = []
+    VAL_LIST = []
     for barcode_id in cell_peak_arr:
-        d = collections.Counter(cell_peak_arr[barcode_id]);
-        IDX_LIST += [barcode_id] * len(d);
+        d = collections.Counter(cell_peak_arr[barcode_id])
+        IDX_LIST += [barcode_id] * len(d)
         for peak_id in d:
-            IDY_LIST.append(peak_id);
-            VAL_LIST.append(d[peak_id]);
-        
-    f = h5py.File(snap_file, "a", libver='earliest');
-    dt = h5py.special_dtype(vlen=bytes);
-    f.create_dataset("GM/name",      data=[np.string_(item) for item in gene_dict.keys()], dtype=h5py.special_dtype(vlen=bytes), compression="gzip", compression_opts=9);    
-    f.create_dataset("GM/idx",       data=IDX_LIST,      dtype="uint32", compression="gzip", compression_opts=9);
-    f.create_dataset("GM/idy",       data=IDY_LIST,      dtype="uint32", compression="gzip", compression_opts=9);
-    f.create_dataset("GM/count",     data=VAL_LIST,    dtype="uint8", compression="gzip", compression_opts=9);     
-    f.close()  
+            IDY_LIST.append(peak_id)
+            VAL_LIST.append(d[peak_id])
+
+    f = h5py.File(snap_file, "a", libver="earliest")
+    dt = h5py.special_dtype(vlen=bytes)
+    f.create_dataset(
+        "GM/name",
+        data=[np.string_(item) for item in gene_dict.keys()],
+        dtype=h5py.special_dtype(vlen=bytes),
+        compression="gzip",
+        compression_opts=9,
+    )
+    f.create_dataset(
+        "GM/idx", data=IDX_LIST, dtype="uint32", compression="gzip", compression_opts=9
+    )
+    f.create_dataset(
+        "GM/idy", data=IDY_LIST, dtype="uint32", compression="gzip", compression_opts=9
+    )
+    f.create_dataset(
+        "GM/count", data=VAL_LIST, dtype="uint8", compression="gzip", compression_opts=9
+    )
+    f.close()
     # remove the temporary files
-    subprocess.check_call(["rm", fout_frag.name]);
+    subprocess.check_call(["rm", fout_frag.name])
     return 0

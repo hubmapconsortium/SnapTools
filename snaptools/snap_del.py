@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-""" 
+"""
 
 The MIT License
 
@@ -25,7 +25,8 @@ THE SOFTWARE.
 
 """
 
-import sys, os 
+import sys
+import os
 import collections
 import gzip
 import operator
@@ -76,50 +77,50 @@ except Exception:
     sys.exit(1)
 
 
-def snap_del(snap_file,
-             session_name
-             ):
-
+def snap_del(snap_file, session_name):
     """
     Delete an existing attribute in a snap file.
 
     Args:
     --------
-    snap_file: 
+    snap_file:
         a snap format file.
 
-    session_name: 
+    session_name:
         attribute to delete ["AM", "GM", "PM", "FM"].
-    
+
     """
-    
+
     if not os.path.exists(snap_file):
-        print(('error: ' + snap_file + ' does not exist!'));
-        sys.exit(1);
-    
+        print(("error: " + snap_file + " does not exist!"))
+        sys.exit(1)
+
     # check if snap_file is a snap-format file
-    file_format = snaptools.utilities.checkFileFormat(snap_file);
+    file_format = snaptools.utilities.checkFileFormat(snap_file)
     if file_format != "snap":
-        print(("error: input file %s is not a snap file!" % snap_file));
-        sys.exit(1);
-    
-    fin = h5py.File(snap_file, "r", libver='earliest');
-    
+        print(("error: input file %s is not a snap file!" % snap_file))
+        sys.exit(1)
+
+    fin = h5py.File(snap_file, "r", libver="earliest")
+
     if session_name not in list(fin.keys()):
-        print(("error: --session-name %s does not exist in %s" % (session_name, snap_file)));
-        sys.exit(1);
-    
-    fout_name = tempfile.NamedTemporaryFile(delete=False, dir=None);
-    fout = h5py.File(fout_name.name, "a", libver='earliest');
-    
-    session_name_list = list(fin.keys());
-    session_name_list.remove(session_name);
-    
+        print(
+            (
+                "error: --session-name %s does not exist in %s"
+                % (session_name, snap_file)
+            )
+        )
+        sys.exit(1)
+
+    fout_name = tempfile.NamedTemporaryFile(delete=False, dir=None)
+    fout = h5py.File(fout_name.name, "a", libver="earliest")
+
+    session_name_list = list(fin.keys())
+    session_name_list.remove(session_name)
+
     for group_name in session_name_list:
-        fout.copy(fin[group_name],group_name,shallow=False)
-        
+        fout.copy(fin[group_name], group_name, shallow=False)
+
     fin.close()
     fout.close()
-    subprocess.check_call("\t".join(["mv", fout_name.name, snap_file]), shell=True);
-
-
+    subprocess.check_call("\t".join(["mv", fout_name.name, snap_file]), shell=True)

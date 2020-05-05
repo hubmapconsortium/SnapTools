@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-""" 
+"""
 
 The MIT License
 
@@ -31,27 +31,23 @@ from argparse import ArgumentParser, RawTextHelpFormatter
 import os
 import sys
 
-def louvain(
-    edge_file,
-    output_file,
-    resolution
-    ):
-    
-    ################################################################################################      
+
+def louvain(edge_file, output_file, resolution):
+
+    ################################################################################################
     if not os.path.exists(edge_file):
-        print(('Error: ' + edge_file + ' does not exist!'));
-        sys.exit(1);
-	
-    ################################################################################################      
-    G = nx.Graph();
+        print(("Error: " + edge_file + " does not exist!"))
+        sys.exit(1)
+
+    ################################################################################################
+    G = nx.Graph()
     with open(edge_file) as fin:
         for line in fin:
-            elems = line.split();
-            G.add_edge(elems[0],elems[1], weight=float(elems[2]))
-    
-    partition = community.best_partition(G, resolution = resolution)        
-    
+            elems = line.split()
+            G.add_edge(elems[0], elems[1], weight=float(elems[2]))
+
+    partition = community.best_partition(G, resolution=resolution)
+
     with open(output_file, "w") as fout:
         for node in list(partition.keys()):
-            fout.write(str(node) + " " + str(partition[node] + 1) + "\n") 
-
+            fout.write(str(node) + " " + str(partition[node] + 1) + "\n")

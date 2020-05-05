@@ -540,8 +540,8 @@ def readPairToFragment(read1, read2, is_secondary):
         start2 = read2.reference_start
         strand2 = "-" if read1.is_reverse else "+"
         # it is possible that flen1 is None
-        flen1 = read1.reference_length if read1.reference_length != None else 0
-        flen2 = read2.reference_length if read2.reference_length != None else 0
+        flen1 = read1.reference_length if read1.reference_length is not None else 0
+        flen2 = read2.reference_length if read2.reference_length is not None else 0
         end1 = start1 + flen1
         end2 = start2 + flen2
         start = min(start1, end1, start2, end2)
@@ -581,7 +581,7 @@ def readToFragment(read1, is_secondary):
         start1 = read1.reference_start
         strand1 = "-" if read1.is_reverse else "+"
         # it is possible that flen1 is None
-        flen1 = read1.reference_length if read1.reference_length != None else 0
+        flen1 = read1.reference_length if read1.reference_length is not None else 0
         end1 = start1 + flen1
         start = min(start1, end1)
         end = max(start1, end1)
@@ -833,7 +833,7 @@ def dump_read(snap_file, output_file, buffer_size, barcode_file, tmp_folder, ove
         barcode_dict = barcode_dict_ref
 
     # check if tmp_folder is given
-    if tmp_folder != None:
+    if tmp_folder is not None:
         if not os.path.isdir(tmp_folder):
             print("error: %s does not exist!" % tmp_folder)
             sys.exit(1)

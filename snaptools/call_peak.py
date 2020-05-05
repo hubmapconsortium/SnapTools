@@ -118,7 +118,7 @@ def call_peak(
     """
 
     # if the path_to_macs path given, need to check the existance of MACS1
-    if path_to_macs != None:
+    if path_to_macs is not None:
         path_to_macs += "/"
         if not os.path.isdir(path_to_macs):
             print("Error: " + path_to_macs + " is not a folder")
@@ -138,7 +138,7 @@ def call_peak(
         path_to_macs = ""
 
     # check temp folder
-    if tmp_folder != None:
+    if tmp_folder is not None:
         if not os.path.isdir(tmp_folder):
             print("Error: 'tmp_folder' is not a folder or does not exist")
             sys.exit(1)

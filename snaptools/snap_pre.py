@@ -169,7 +169,7 @@ def snap_pre(
         )
         sys.exit(1)
 
-    if barcode_file != None:
+    if barcode_file is not None:
         if not os.path.exists(barcode_file):
             print("error: --barcode-file %s does not exist!" % barcode_file)
             sys.exit(1)
@@ -181,7 +181,7 @@ def snap_pre(
             print("error: %s already exists, change --overwrite!" % output_snap)
             sys.exit(1)
 
-    if tmp_folder != None:
+    if tmp_folder is not None:
         if not os.path.isdir(tmp_folder):
             print("error: %s does not exist!" % tmp_folder)
             sys.exit(1)
@@ -240,7 +240,7 @@ def snap_pre(
     # bed file does not contain any alignment information, force it to "NA"
     align_dict = snaptools.utilities.readAlignmentInfo(input_file, file_format)
 
-    if barcode_file != None:
+    if barcode_file is not None:
         barcode_dict = snaptools.snap.getBarcodesFromTxt(barcode_file)
     else:
         barcode_dict = snaptools.snap.getBarcodesFromInput(input_file, file_format)

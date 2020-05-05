@@ -131,7 +131,7 @@ def index_ref(input_fasta, output_prefix, path_to_aligner, aligner, num_threads)
     """
 
     # if the aligner path given, need to check the existance of the aligner
-    if path_to_aligner != None:
+    if path_to_aligner is not None:
         path_to_aligner += "/"
         if not os.path.isdir(path_to_aligner):
             print("Error: path_to_aligner is not a folder")
@@ -154,7 +154,7 @@ def index_ref(input_fasta, output_prefix, path_to_aligner, aligner, num_threads)
         print("Error: " + input_fasta + " does not exist!")
         sys.exit(1)
 
-    if output_prefix == None:
+    if output_prefix is None:
         output_prefix = os.path.splitext(input_fasta)[0]
 
     aligner = aligner.lower()
@@ -257,7 +257,7 @@ def run_align_pe(
         a boolen variable indicates whether to output the progress [True];
     """
     # if the aligner path given, need to check the existance of the aligner
-    if path_to_aligner != None:
+    if path_to_aligner is not None:
         path_to_aligner += "/"
         if not os.path.isdir(path_to_aligner):
             print("Error: path_to_aligner is not a folder")
@@ -276,7 +276,7 @@ def run_align_pe(
             sys.exit(1)
         path_to_aligner = ""
 
-    if tmp_folder != None:
+    if tmp_folder is not None:
         if not os.path.isdir(tmp_folder):
             print("Error: tmp_folder is not a folder or does not exist")
             sys.exit(1)
@@ -357,7 +357,7 @@ def run_align_pe(
         sys.exit("Error: only support bwa, bowtie, bowtie2, minimap2")
 
     # if cat_cmd is not given, automatically detect file type and choose cat_cmd
-    if read_fastq_command == None:
+    if read_fastq_command is None:
         if file_type(input_fastq1) == "gz":
             read_fastq_command = "zcat"
         elif file_type(input_fastq1) == "bz2":
@@ -475,7 +475,7 @@ def run_align_se(
     overwrite: whether to overwrite the output file if it already exists [False];
     """
     # if the aligner path given, need to check the existance of the aligner
-    if path_to_aligner != None:
+    if path_to_aligner is not None:
         path_to_aligner += "/"
         if not os.path.isdir(path_to_aligner):
             print("Error: path_to_aligner is not a folder")
@@ -494,7 +494,7 @@ def run_align_se(
             sys.exit(1)
         path_to_aligner = ""
 
-    if tmp_folder != None:
+    if tmp_folder is not None:
         if not os.path.isdir(tmp_folder):
             print("Error: tmp_folder is not a folder or does not exist")
             sys.exit(1)
@@ -568,7 +568,7 @@ def run_align_se(
         sys.exit("Error: only support bwa, bowtie, bowtie2, minimap2")
 
     # if cat_cmd is not given, automatically detect file type and choose cat_cmd
-    if read_fastq_command == None:
+    if read_fastq_command is None:
         if file_type(input_fastq1) == "gz":
             read_fastq_command = "zcat"
         elif file_type(input_fastq1) == "bz2":

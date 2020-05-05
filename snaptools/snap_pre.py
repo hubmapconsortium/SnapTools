@@ -406,7 +406,7 @@ def snap_pre(
                 #    if it is paired, keep it only if it is approperly paired
                 if frag.is_single == True:
                     if frag.is_secondary:
-                        qcDict[barcode].secondary += 1
+                        qc_dict[barcode].secondary += 1
                         if not keep_secondary:
                             continue
                     else:

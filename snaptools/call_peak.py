@@ -130,7 +130,7 @@ def call_peak(
         try:
             # pipe output to /dev/null for silence
             null = open("/dev/null", "w")
-            subprocess.Popen(macs2, stdout=null, stderr=null)
+            subprocess.Popen("macs2", stdout=null, stderr=null)
             null.close()
         except OSError as e:
             print("Error: macs2 does not exist!")

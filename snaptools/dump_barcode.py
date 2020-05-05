@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-""" 
+"""
 
 The MIT License
 
@@ -25,7 +25,8 @@ THE SOFTWARE.
 
 """
 
-import sys, os 
+import sys
+import os
 import collections
 import gzip
 import operator
@@ -75,84 +76,86 @@ except Exception:
     sys.exit(1)
 
 
-def dump_barcode(snap_file,
-                 output_file,
-                 barcode_file,
-                 tmp_folder,
-                 overwrite):
-
+def dump_barcode(snap_file, output_file, barcode_file, tmp_folder, overwrite):
     """
     Dump reads from snap file into a bed file (of selected barcodes)
 
     Required Args:
     --------
-    snap_file: 
+    snap_file:
         a snap format file.
 
-    output_file: 
+    output_file:
         a txt format file contains attributes of selected barcodes.
-    
+
     Optional Args:
     --------
-                               
+
     barcode_file:
         a txt file contains selected barcodes.
-                  
+
     overwrite:
         a boolen variable indicates whether to overwrite a file if it already exists
 
     """
     # check if input snap file exists
     if not os.path.exists(snap_file):
-        print(('error: %s does not exist!' % snap_file));
-        sys.exit(1);
-    
+        print(("error: %s does not exist!" % snap_file))
+        sys.exit(1)
+
     # check if snap_file is a snap-format file
-    file_format = snaptools.utilities.checkFileFormat(snap_file);
+    file_format = snaptools.utilities.checkFileFormat(snap_file)
     if file_format != "snap":
-        print(("error: input file %s is not a snap file!" % snap_file));
-    
+        print(("error: input file %s is not a snap file!" % snap_file))
+
     # check the output bed file exists
     if os.path.exists(output_file):
         if overwrite == True:
-            subprocess.check_call(["rm", output_file]);
+            subprocess.check_call(["rm", output_file])
         else:
-            print(('error: %s already exists, change --overwrite or remove it first!' % output_file));
-            sys.exit(1);    
-    
+            print(
+                (
+                    "error: %s already exists, change --overwrite or remove it first!"
+                    % output_file
+                )
+            )
+            sys.exit(1)
+
     # check if BD session exists
-    f = h5py.File(snap_file, "r", libver='earliest');
+    f = h5py.File(snap_file, "r", libver="earliest")
     if "BD" not in f:
-        print("error: BD session does not exit in the snap file!");
-        sys.exit(1);
-    f.close();
-    
-    barcode_dict = getBarcodesFromSnap(snap_file);
-    
+        print("error: BD session does not exit in the snap file!")
+        sys.exit(1)
+    f.close()
+
+    barcode_dict = getBarcodesFromSnap(snap_file)
+
     # identify the barcodes
     if barcode_file is None:
-        barcode_list = list(barcode_dict.keys());
+        barcode_list = list(barcode_dict.keys())
     else:
-        barcode_list = list(getBarcodesFromTxt(barcode_file).keys());
-    
+        barcode_list = list(getBarcodesFromTxt(barcode_file).keys())
+
     # write fragments down
-    fout = open(output_file, "w");
-    res = ["Barcode", "TN", "UM", "SE", "SA", "PE", "PP", "PL", "US", "UQ", "CM", "\n"];
-    fout.write("\t".join(map(str, res)))    
+    fout = open(output_file, "w")
+    res = ["Barcode", "TN", "UM", "SE", "SA", "PE", "PP", "PL", "US", "UQ", "CM", "\n"]
+    fout.write("\t".join(map(str, res)))
     for barcode in barcode_list:
         if barcode in barcode_dict:
-            res = [barcode, barcode_dict[barcode].total,  \
-                     barcode_dict[barcode].mapped, \
-                     barcode_dict[barcode].single, \
-                     barcode_dict[barcode].secondary, \
-                     barcode_dict[barcode].proper_paired, \
-                     barcode_dict[barcode].proper_flen, \
-                     barcode_dict[barcode].usable, \
-                     barcode_dict[barcode].uniq, \
-                     barcode_dict[barcode].chrM, \
-                     "\n"]
+            res = [
+                barcode,
+                barcode_dict[barcode].total,
+                barcode_dict[barcode].mapped,
+                barcode_dict[barcode].single,
+                barcode_dict[barcode].secondary,
+                barcode_dict[barcode].proper_paired,
+                barcode_dict[barcode].proper_flen,
+                barcode_dict[barcode].usable,
+                barcode_dict[barcode].uniq,
+                barcode_dict[barcode].chrM,
+                "\n",
+            ]
         else:
-            res = [barcode] +  ["0"] * 9
-        fout.write("\t".join(map(str, res)))          
+            res = [barcode] + ["0"] * 9
+        fout.write("\t".join(map(str, res)))
     return 0
-    

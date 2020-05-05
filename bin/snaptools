@@ -35,5 +35,4 @@ Description: snaptools - A toolkit for single nuclues ATAC-seq analysis.
 
 from snaptools.parser import parse_args
 if __name__ == '__main__':
-    parse_args()    
-
+    parse_args()

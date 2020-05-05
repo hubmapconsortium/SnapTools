@@ -2,11 +2,20 @@ from collections import defaultdict
 import gzip
 import re
 
-GTF_HEADER  = ['seqname', 'source', 'feature', 'start', 'end', 'score',
-               'strand', 'frame']
-R_SEMICOLON = re.compile(r'\s*;\s*')
-R_COMMA     = re.compile(r'\s*,\s*')
-R_KEYVALUE  = re.compile(r'(\s+|\s*=\s*)')
+GTF_HEADER = [
+    "seqname",
+    "source",
+    "feature",
+    "start",
+    "end",
+    "score",
+    "strand",
+    "frame",
+]
+R_SEMICOLON = re.compile(r"\s*;\s*")
+R_COMMA = re.compile(r"\s*,\s*")
+R_KEYVALUE = re.compile(r"(\s+|\s*=\s*)")
+
 
 def readGTF(filename):
     """Open an optionally gzipped GTF file and return a pandas.DataFrame.
@@ -27,14 +36,15 @@ def readGTF(filename):
 
     return result
 
+
 def lines(filename):
     """Open an optionally gzipped GTF file and generate a dict for each line.
     """
-    fn_open = gzip.open if filename.endswith('.gz') else open
+    fn_open = gzip.open if filename.endswith(".gz") else open
 
     with fn_open(filename) as fh:
         for line in fh:
-            if line.startswith('#'):
+            if line.startswith("#"):
                 continue
             else:
                 yield parse(line)
@@ -45,7 +55,7 @@ def parse(line):
     """
     result = {}
 
-    fields = line.rstrip().split('\t')
+    fields = line.rstrip().split("\t")
 
     for i, col in enumerate(GTF_HEADER):
         result[col] = _get_value(fields[i])
@@ -59,7 +69,7 @@ def parse(line):
             key, _, value = re.split(R_KEYVALUE, info, 1)
         # But sometimes it is just "value".
         except ValueError:
-            key = 'INFO{}'.format(i)
+            key = "INFO{}".format(i)
             value = info
         # Ignore the field if there is no value.
         if value:
@@ -73,13 +83,13 @@ def _get_value(value):
         return None
 
     # Strip double and single quotes.
-    value = value.strip('"\'')
+    value = value.strip("\"'")
 
     # Return a list if the value has a comma.
-    if ',' in value:
+    if "," in value:
         value = re.split(R_COMMA, value)
     # These values are equivalent to None.
-    elif value in ['', '.', 'NA']:
+    elif value in ["", ".", "NA"]:
         return None
 
     return value

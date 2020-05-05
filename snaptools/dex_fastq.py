@@ -53,16 +53,16 @@ def dex_fastq(input_fastq, output_fastq, index_fastq_list):
 
     # check wheather snap file exists
     if not os.path.exists(input_fastq):
-        print(("error: " + input_fastq + " does not exist!"))
+        print("error: " + input_fastq + " does not exist!")
         sys.exit(1)
 
     if os.path.exists(output_fastq):
-        print(("error: " + output_fastq + " already exists, remove it first!"))
+        print("error: " + output_fastq + " already exists, remove it first!")
         sys.exit(1)
 
     for index_fastq in index_fastq_list:
         if not os.path.exists(index_fastq):
-            print(("error: " + index_fastq + " does not exist!"))
+            print("error: " + index_fastq + " does not exist!")
             sys.exit(1)
 
     if file_type(input_fastq) == "gz":

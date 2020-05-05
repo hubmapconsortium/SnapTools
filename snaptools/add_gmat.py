@@ -98,16 +98,16 @@ def snap_gmat(snap_file, gene_file, buffer_size, tmp_folder, verbose):
     """
 
     if not os.path.exists(snap_file):
-        print(("error: " + snap_file + " does not exist!"))
+        print("error: " + snap_file + " does not exist!")
         sys.exit(1)
 
     # check if snap_file is a snap-format file
     file_format = snaptools.utilities.checkFileFormat(snap_file)
     if file_format != "snap":
-        print(("error: input file %s is not a snap file!" % snap_file))
+        print("error: input file %s is not a snap file!" % snap_file)
 
     if not os.path.exists(gene_file):
-        print(("error: " + gene_file + " does not exist!"))
+        print("error: " + gene_file + " does not exist!")
         sys.exit(1)
 
     # check if GM session already exists
@@ -122,7 +122,7 @@ def snap_gmat(snap_file, gene_file, buffer_size, tmp_folder, verbose):
     # check if snap_file is a snap-format file
     file_format = snaptools.utilities.checkFileFormat(gene_file)
     if file_format != "bed":
-        print(("error: input file %s is not a bed file!" % snap_file))
+        print("error: input file %s is not a bed file!" % snap_file)
 
     # check if gene file is a bed file with the last column as gene
     gene_list = set([str(item.name) for item in pybedtools.BedTool(gene_file)])

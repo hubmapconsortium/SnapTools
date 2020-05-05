@@ -152,42 +152,38 @@ def snap_pre(
     """
 
     if not os.path.exists(input_file):
-        print(("error: " + input_file + " does not exist!"))
+        print("error: " + input_file + " does not exist!")
         sys.exit(1)
 
     if min_flen < snaptools.global_var.MIN_FRAGMENT_LEN:
         print(
-            (
-                "error: --min-flen can not be smaller than %s "
-                % str(snaptools.global_var.MIN_FRAGMENT_LEN)
-            )
+            "error: --min-flen can not be smaller than %s "
+            % str(snaptools.global_var.MIN_FRAGMENT_LEN)
         )
         sys.exit(1)
 
     if max_flen > snaptools.global_var.MAX_FRAGMENT_LEN:
         print(
-            (
-                "error: --max-flen can not be smaller than %s "
-                % str(snaptools.global_var.MAX_FRAGMENT_LEN)
-            )
+            "error: --max-flen can not be smaller than %s "
+            % str(snaptools.global_var.MAX_FRAGMENT_LEN)
         )
         sys.exit(1)
 
     if barcode_file != None:
         if not os.path.exists(barcode_file):
-            print(("error: --barcode-file %s does not exist!" % barcode_file))
+            print("error: --barcode-file %s does not exist!" % barcode_file)
             sys.exit(1)
 
     if os.path.exists(output_snap):
         if overwrite == True:
             subprocess.check_call(["rm", output_snap])
         else:
-            print(("error: %s already exists, change --overwrite!" % output_snap))
+            print("error: %s already exists, change --overwrite!" % output_snap)
             sys.exit(1)
 
     if tmp_folder != None:
         if not os.path.isdir(tmp_folder):
-            print(("error: %s does not exist!" % tmp_folder))
+            print("error: %s does not exist!" % tmp_folder)
             sys.exit(1)
 
     # automatically determine the file format
@@ -195,31 +191,24 @@ def snap_pre(
 
     if file_format != "bed" and file_format != "bam":
         print(
-            (
-                "error: unrecognized input format %s, only supports bed and bam file!"
-                % input_file
-            )
+            "error: unrecognized input format %s, only supports bed and bam file!"
+            % input_file
         )
         sys.exit(1)
 
     if not os.path.exists(genome_size):
-        print(("error: " + genome_size + " does not exist!"))
+        print("error: " + genome_size + " does not exist!")
         sys.exit(1)
 
     if genome_name not in snaptools.global_var.GENOMELIST:
         print(
-            (
-                "error: --genome-name unrecoginized genome identifier %s"
-                % str(genome_name)
-            )
+            "error: --genome-name unrecoginized genome identifier %s" % str(genome_name)
         )
         print(
-            (
-                "Do you mean: %s ?"
-                % ",".join(
-                    snaptools.utilities.minEditDistanceString(
-                        genome_name, snaptools.global_var.GENOMELIST
-                    )
+            "Do you mean: %s ?"
+            % ",".join(
+                snaptools.utilities.minEditDistanceString(
+                    genome_name, snaptools.global_var.GENOMELIST
                 )
             )
         )
@@ -237,7 +226,7 @@ def snap_pre(
 
     # check if a file is sorted by read name or queryname
     if not snaptools.utilities.isQuerynameSorted(input_file, file_format):
-        print(("error: %s is not a sorted by read name!" % input_file))
+        print("error: %s is not a sorted by read name!" % input_file)
         sys.exit(1)
 
     # create the header session
@@ -343,10 +332,8 @@ def snap_pre(
                 check_point += 1
                 if verbose and check_point % 100000 == 0:
                     print(
-                        (
-                            "%d\ttags, %s seconds "
-                            % (check_point, time.time() - start_time)
-                        )
+                        "%d\ttags, %s seconds "
+                        % (check_point, time.time() - start_time)
                     )
                 # skip this barcode if it is not in the barcode list
                 if barcode not in barcode_dict:
@@ -402,10 +389,8 @@ def snap_pre(
                 check_point += 1
                 if verbose and check_point % 100000 == 0:
                     print(
-                        (
-                            "%d\ttags, %s seconds "
-                            % (check_point, time.time() - start_time)
-                        )
+                        "%d\ttags, %s seconds "
+                        % (check_point, time.time() - start_time)
                     )
                 # skip this barcode if it is not in the barcode list
                 if barcode not in barcode_dict:

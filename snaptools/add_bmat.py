@@ -97,13 +97,13 @@ def snap_bmat(snap_file, bin_size_list, tmp_folder, verbose):
     """
 
     if not os.path.exists(snap_file):
-        print(("error: " + snap_file + " does not exist!"))
+        print("error: " + snap_file + " does not exist!")
         sys.exit(1)
 
     # check if snap_file is a snap-format file
     file_format = snaptools.utilities.checkFileFormat(snap_file)
     if file_format != "snap":
-        print(("error: input file %s is not a snap file!" % snap_file))
+        print("error: input file %s is not a snap file!" % snap_file)
         sys.exit(1)
 
     # create the bin list
@@ -140,7 +140,7 @@ def snap_bmat(snap_file, bin_size_list, tmp_folder, verbose):
     num_barcode = len(barcode_dict)
     if verbose:
         print("===== reading the barcodes and bins ======")
-        print(("@AM\tnBinSize:%d" % len(list(bin_dict_list.keys()))))
+        print("@AM\tnBinSize:%d" % len(list(bin_dict_list.keys())))
         print("@AM\tbinSizeList: %s" % str(list(bin_dict_list.keys())))
         for bin_size in list(bin_dict_list.keys()):
             print(

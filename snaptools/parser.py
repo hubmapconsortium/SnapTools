@@ -65,7 +65,7 @@ def parse_args():
     if len(sys.argv) > 1:
         # print out version
         if sys.argv[1] == "--version" or sys.argv[1] == "-v":
-            print((snaptools.__version__))
+            print(snaptools.__version__)
             exit()
         # all functions
         args = parser.parse_args()

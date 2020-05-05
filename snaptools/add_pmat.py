@@ -102,22 +102,22 @@ def snap_pmat(snap_file, peak_file, buffer_size, tmp_folder, verbose):
     """
 
     if not os.path.exists(snap_file):
-        print(("error: " + snap_file + " does not exist!"))
+        print("error: " + snap_file + " does not exist!")
         sys.exit(1)
 
     # check if snap_file is a snap-format file
     file_format = snaptools.utilities.checkFileFormat(snap_file)
     if file_format != "snap":
-        print(("error: input file %s is not a snap file!" % snap_file))
+        print("error: input file %s is not a snap file!" % snap_file)
 
     if not os.path.exists(peak_file):
-        print(("error: " + peak_file + " does not exist!"))
+        print("error: " + peak_file + " does not exist!")
         sys.exit(1)
 
     # check if snap_file is a snap-format file
     file_format = snaptools.utilities.checkFileFormat(peak_file)
     if file_format != "bed":
-        print(("error: input file %s is not a bed file!" % peak_file))
+        print("error: input file %s is not a bed file!" % peak_file)
         sys.exit(1)
 
     # check if PM session already exists

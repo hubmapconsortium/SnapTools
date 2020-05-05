@@ -78,11 +78,9 @@ def filter_fastq(fname, barcodes, tmp_folder):
         fin = open(fname, "r")
     else:
         print(
-            (
-                "error: unrecoginized fastq "
-                + fname
-                + " file format, only supports .gz, .bz2, .fastq"
-            )
+            "error: unrecoginized fastq "
+            + fname
+            + " file format, only supports .gz, .bz2, .fastq"
         )
         sys.exit(1)
 
@@ -148,12 +146,12 @@ def index_ref(input_fasta, output_prefix, path_to_aligner, aligner, num_threads)
             subprocess.Popen(aligner, stdout=null, stderr=null)
             null.close()
         except OSError as e:
-            print(("Error: " + aligner + " does not exist!"))
+            print("Error: " + aligner + " does not exist!")
             sys.exit(1)
         path_to_aligner = ""
 
     if not os.path.exists(input_fasta):
-        print(("Error: " + input_fasta + " does not exist!"))
+        print("Error: " + input_fasta + " does not exist!")
         sys.exit(1)
 
     if output_prefix == None:
@@ -274,7 +272,7 @@ def run_align_pe(
             subprocess.Popen(aligner, stdout=null, stderr=null)
             null.close()
         except OSError as e:
-            print(("Error: " + aligner + " does not exist!"))
+            print("Error: " + aligner + " does not exist!")
             sys.exit(1)
         path_to_aligner = ""
 
@@ -304,7 +302,7 @@ def run_align_pe(
             outfile.write("Hello World")
         subprocess.check_call(["rm", output_bam])
     except IOError:
-        print(("error: could not create %s, check if the folder exists." % output_bam))
+        print("error: could not create %s, check if the folder exists." % output_bam)
         sys.exit(1)
 
     if min_cov > 0:
@@ -492,7 +490,7 @@ def run_align_se(
             subprocess.Popen(aligner, stdout=null, stderr=null)
             null.close()
         except OSError as e:
-            print(("Error: " + aligner + " does not exist!"))
+            print("Error: " + aligner + " does not exist!")
             sys.exit(1)
         path_to_aligner = ""
 
@@ -517,7 +515,7 @@ def run_align_se(
             outfile.write("")
         subprocess.check_call(["rm", output_bam])
     except IOError:
-        print(("error: could not create %s, check if the folder exists." % output_bam))
+        print("error: could not create %s, check if the folder exists." % output_bam)
         sys.exit(1)
 
     if min_cov > 0:

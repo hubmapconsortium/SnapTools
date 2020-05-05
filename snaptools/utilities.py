@@ -134,7 +134,7 @@ def isQuerynameSorted(fname, file_type):
     elif file_type == "bed":
         return isBedQuerynameSorted(fname)
     else:
-        print(("error: %s is not a supported file format!" % file_type))
+        print("error: %s is not a supported file format!" % file_type)
         sys.exit(1)
 
 
@@ -148,7 +148,7 @@ def isBamQuerynameSorted(fname):
         True if fname is a bam file sorted by read name, otherwise False
     """
     if not is_bam(fname):
-        print(("Error @is_sorted_queryname: " + fname + " is not a bam/sam file!"))
+        print("Error @is_sorted_queryname: " + fname + " is not a bam/sam file!")
         return False
     samfile = pysam.AlignmentFile(fname, "rb")
     flag = False
@@ -174,7 +174,7 @@ def isBedQuerynameSorted(fname):
     """
 
     if not is_bed(fname):
-        print(("Error @is_bed_queryname_sorted: " + fname + " is not a bed file!"))
+        print("Error @is_bed_queryname_sorted: " + fname + " is not a bed file!")
         return False
 
     # read the first 1 million reads and see if the read name is sorted
@@ -206,7 +206,7 @@ def read_genome_size_from_bam(fname):
     """
     # first check if fname is a bam file
     if not is_bam(fname):
-        print(("Error @read_genome_size_from_bam: " + fname + " is not a bam file!"))
+        print("Error @read_genome_size_from_bam: " + fname + " is not a bam file!")
         return None
     samfile = pysam.AlignmentFile(fname, "rb")
     header = samfile.header
@@ -273,7 +273,7 @@ def readAlignmentInfo(fname, file_type):
         res["VN"] = "NA"
         res["CL"] = "NA"
     else:
-        print(("error: %s is not a supported file format!" % file_type))
+        print("error: %s is not a supported file format!" % file_type)
         sys.exit(1)
     if "PN" not in res:
         res["PN"] = "NA"
@@ -298,7 +298,7 @@ def readAlignmentInfoFromBam(fname):
         A dictionary contains alingment info, otherwise None
     """
     if not is_bam(fname):
-        print(("Error @read_alignment_info: " + fname + " is not a bam file!"))
+        print("Error @read_alignment_info: " + fname + " is not a bam file!")
         return None
 
     samfile = pysam.AlignmentFile(fname, "rb")
@@ -308,7 +308,7 @@ def readAlignmentInfoFromBam(fname):
         header["PG"]
         res = header["PG"][0]
     except KeyError as e:
-        print(("error: failed to read alingment info from bam file"))
+        print("error: failed to read alingment info from bam file")
         sys.exit(1)
     samfile.close()
     return res

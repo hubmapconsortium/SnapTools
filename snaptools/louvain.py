@@ -37,7 +37,7 @@ def louvain(edge_file, output_file, resolution):
 
     ################################################################################################
     if not os.path.exists(edge_file):
-        print(("Error: " + edge_file + " does not exist!"))
+        print("Error: " + edge_file + " does not exist!")
         sys.exit(1)
 
     ################################################################################################

@@ -181,10 +181,8 @@ def getBarcodesFromInput(fname, ftype):
         return getBarcodesFromBed(fname)
     else:
         print(
-            (
-                "error: unrecognized file format for %s, only support bam or bed file"
-                % ftype
-            )
+            "error: unrecognized file format for %s, only support bam or bed file"
+            % ftype
         )
         sys.exit(1)
 
@@ -298,7 +296,7 @@ def getBarcodeCov(barcode_list, input_file, file_format):
     elif file_format == "bed":
         return get_barcode_cov_from_bed(barcode_list, input_file)
     else:
-        print(("error: unrecognized file format %s " % file_format))
+        print("error: unrecognized file format %s " % file_format)
         sys.exit(1)
 
 
@@ -316,9 +314,7 @@ def get_barcode_cov_from_bam(barcode_list, input_bam):
     """
 
     if not snaptools.utilities.is_bam(input_bam):
-        print(
-            ("error: @get_barcode_cov_from_bam: " + input_bam + " is not a bam file!")
-        )
+        print("error: @get_barcode_cov_from_bam: " + input_bam + " is not a bam file!")
         sys.exit(1)
 
     if len(barcode_list) == 0:
@@ -390,7 +386,7 @@ def group_reads_by_barcode(input_file, file_format):
     elif file_format == "bed":
         return group_reads_by_barcode_bed(input_file)
     else:
-        print(("error: unrecoganized file format for %s " % file_format))
+        print("error: unrecoganized file format for %s " % file_format)
         sys.exit(1)
 
 
@@ -404,12 +400,10 @@ def group_reads_by_barcode_bam(input_bam):
         Generator that contains reads sharing the same barcode
     """
     if not os.path.exists(input_bam):
-        print(("Error @group_reads_by_barcode_bam: " + input_bam + " does not exist!"))
+        print("Error @group_reads_by_barcode_bam: " + input_bam + " does not exist!")
 
     if not snaptools.utilities.is_bam(input_bam):
-        print(
-            ("Error @group_reads_by_barcode_bam: " + input_bam + " is not a bam file!")
-        )
+        print("Error @group_reads_by_barcode_bam: " + input_bam + " is not a bam file!")
 
     read_group_list = []
     pre_barcode = ""
@@ -438,7 +432,7 @@ def group_reads_by_barcode_bed(input_bed):
         Generator that contains reads sharing the same barcode
     """
     if not os.path.exists(input_bed):
-        print(("Error @group_reads_by_barcode_bam: " + input_bed + " does not exist!"))
+        print("Error @group_reads_by_barcode_bam: " + input_bed + " does not exist!")
 
     read_group_list = []
     pre_barcode = ""
@@ -697,7 +691,7 @@ def run_snap_view_head(input_snap):
     # 4. print the header session on the screen
 
     if not os.path.exists(input_snap):
-        print(("error: " + input_snap + " does not exist!"))
+        print("error: " + input_snap + " does not exist!")
         sys.exit(1)
 
     # if not snaptools.utilities.is_snap(input_snap):
@@ -707,7 +701,7 @@ def run_snap_view_head(input_snap):
     f = h5py.File(input_snap, "r")
 
     if "HD" not in f:
-        print((input_snap + " HD session does not exist!"))
+        print(input_snap + " HD session does not exist!")
         sys.exit(1)
 
     # read the header info
@@ -729,18 +723,18 @@ def run_snap_view_head(input_snap):
     genome_name = f["HD"]["SQ"]["ID"].value
     genome_dict = dict(list(zip(f["HD"]["SQ"]["SN"], f["HD"]["SQ"]["SL"])))
 
-    print(("@HD\tMG:%s" % header["MG"]))
-    print(("@HD\tDT:%s" % header["DT"]))
-    print(("@HD\tVN:%s" % header["VN"]))
-    print(("@HD\tCL:%s" % header["CL"]))
-    print(("@HD\tCW:%s" % header["CW"]))
-    print(("@AL\tPN:%s" % align_dict["PN"]))
-    print(("@AL\tID:%s" % align_dict["ID"]))
-    print(("@AL\tVN:%s" % align_dict["VN"]))
-    print(("@AL\tVN:%s" % align_dict["CL"]))
-    print(("@SQ\tID:%s" % (genome_name)))
+    print("@HD\tMG:%s" % header["MG"])
+    print("@HD\tDT:%s" % header["DT"])
+    print("@HD\tVN:%s" % header["VN"])
+    print("@HD\tCL:%s" % header["CL"])
+    print("@HD\tCW:%s" % header["CW"])
+    print("@AL\tPN:%s" % align_dict["PN"])
+    print("@AL\tID:%s" % align_dict["ID"])
+    print("@AL\tVN:%s" % align_dict["VN"])
+    print("@AL\tVN:%s" % align_dict["CL"])
+    print("@SQ\tID:%s" % (genome_name))
     for chr_name in genome_dict:
-        print(("@SQ\tSN:%s\tSL:%d" % (chr_name, genome_dict[chr_name])))
+        print("@SQ\tSN:%s\tSL:%d" % (chr_name, genome_dict[chr_name]))
     f.close()
 
 
@@ -763,7 +757,7 @@ def getFragFromBarcode(fname, barcode_list, barcode_dict):
     f = h5py.File(fname, "r", libver="earliest")
     for barcode in barcode_list:
         if barcode not in barcode_dict:
-            print(("warning: barcode %s does not exist in the snap file!" % barcode))
+            print("warning: barcode %s does not exist in the snap file!" % barcode)
             continue
         barcode_id = barcode_dict[barcode].id
         barcode_pos = f["FM"]["barcodePos"][barcode_id - 1] - 1
@@ -811,13 +805,13 @@ def dump_read(snap_file, output_file, buffer_size, barcode_file, tmp_folder, ove
     """
     # check if input snap file exists
     if not os.path.exists(snap_file):
-        print(("error: %s does not exist!" % snap_file))
+        print("error: %s does not exist!" % snap_file)
         sys.exit(1)
 
     # check if snap_file is a snap-format file
     file_format = snaptools.utilities.checkFileFormat(snap_file)
     if file_format != "snap":
-        print(("error: input file %s is not a snap file!" % snap_file))
+        print("error: input file %s is not a snap file!" % snap_file)
 
     # check the output bed file exists
     if os.path.exists(output_file):
@@ -825,10 +819,8 @@ def dump_read(snap_file, output_file, buffer_size, barcode_file, tmp_folder, ove
             subprocess.check_call(["rm", output_file])
         else:
             print(
-                (
-                    "error: %s already exists, change --overwrite or remove it first!"
-                    % output_file
-                )
+                "error: %s already exists, change --overwrite or remove it first!"
+                % output_file
             )
             sys.exit(1)
 
@@ -843,13 +835,13 @@ def dump_read(snap_file, output_file, buffer_size, barcode_file, tmp_folder, ove
     # check if tmp_folder is given
     if tmp_folder != None:
         if not os.path.isdir(tmp_folder):
-            print(("error: %s does not exist!" % tmp_folder))
+            print("error: %s does not exist!" % tmp_folder)
             sys.exit(1)
 
     # check if FM session exists
     f = h5py.File(snap_file, "r", libver="earliest")
     if "FM" not in f:
-        print(("error: FM session does not exit in the snap file!"))
+        print("error: FM session does not exit in the snap file!")
         sys.exit(1)
     f.close()
 

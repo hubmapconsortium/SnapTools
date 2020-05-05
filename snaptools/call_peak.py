@@ -121,7 +121,7 @@ def call_peak(
     if path_to_macs != None:
         path_to_macs += "/"
         if not os.path.isdir(path_to_macs):
-            print(("Error: " + path_to_macs + " is not a folder"))
+            print("Error: " + path_to_macs + " is not a folder")
             sys.exit(1)
         if not os.path.exists(path_to_macs + "macs2"):
             print("Error: macs2 does not exist")
@@ -145,16 +145,16 @@ def call_peak(
 
     # check wheather snap file exists
     if not os.path.exists(snap_file):
-        print(("error: " + snap_file + " does not exist!"))
+        print("error: " + snap_file + " does not exist!")
         sys.exit(1)
 
     # check if snap_file is a snap-format file
     file_format = snaptools.utilities.checkFileFormat(snap_file)
     if file_format != "snap":
-        print(("Error: input file %s is not a snap file!" % snap_file))
+        print("Error: input file %s is not a snap file!" % snap_file)
 
     if not os.path.exists(barcode_file):
-        print(("error: " + barcode_file + " does not exist!"))
+        print("error: " + barcode_file + " does not exist!")
         sys.exit(1)
 
     # default aligner option
@@ -171,7 +171,7 @@ def call_peak(
     # read barcode from barcode file
     barcode_sel = snaptools.snap.getBarcodesFromTxt(barcode_file)
     if len(barcode_sel) == 0:
-        print(("Error: input file %s has zero barcodes!" % barcode_file))
+        print("Error: input file %s has zero barcodes!" % barcode_file)
 
     # extract the barcodes
     barcode_dict = snaptools.snap.getBarcodesFromSnapSimple(snap_file)

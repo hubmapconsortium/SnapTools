@@ -100,13 +100,13 @@ def dump_barcode(snap_file, output_file, barcode_file, tmp_folder, overwrite):
     """
     # check if input snap file exists
     if not os.path.exists(snap_file):
-        print(("error: %s does not exist!" % snap_file))
+        print("error: %s does not exist!" % snap_file)
         sys.exit(1)
 
     # check if snap_file is a snap-format file
     file_format = snaptools.utilities.checkFileFormat(snap_file)
     if file_format != "snap":
-        print(("error: input file %s is not a snap file!" % snap_file))
+        print("error: input file %s is not a snap file!" % snap_file)
 
     # check the output bed file exists
     if os.path.exists(output_file):

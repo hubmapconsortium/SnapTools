@@ -110,7 +110,7 @@ def dump_barcode(snap_file, output_file, barcode_file, tmp_folder, overwrite):
 
     # check the output bed file exists
     if os.path.exists(output_file):
-        if overwrite == True:
+        if overwrite:
             subprocess.check_call(["rm", output_file])
         else:
             print(

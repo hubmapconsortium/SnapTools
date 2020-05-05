@@ -815,7 +815,7 @@ def dump_read(snap_file, output_file, buffer_size, barcode_file, tmp_folder, ove
 
     # check the output bed file exists
     if os.path.exists(output_file):
-        if overwrite == True:
+        if overwrite:
             subprocess.check_call(["rm", output_file])
         else:
             print(

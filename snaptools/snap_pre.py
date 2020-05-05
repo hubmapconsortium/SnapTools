@@ -175,7 +175,7 @@ def snap_pre(
             sys.exit(1)
 
     if os.path.exists(output_snap):
-        if overwrite == True:
+        if overwrite:
             subprocess.check_call(["rm", output_snap])
         else:
             print("error: %s already exists, change --overwrite!" % output_snap)
@@ -339,7 +339,7 @@ def snap_pre(
                 if barcode not in barcode_dict:
                     break
                 # total number of sequencing fragments (exclude supplementary alignments)
-                if frag.is_secondary == False:
+                if not frag.is_secondary:
                     qc_dict[barcode].total += 1
                 # 1. Filter non-uniquely mapped fragments
                 if frag.mapq < min_mapq:
@@ -347,7 +347,7 @@ def snap_pre(
                 qc_dict[barcode].mapped += 1
                 # 2. if it is single read, keep it only if keep_unpaired is true
                 #    if it is paired, keep it only if it is approperly paired
-                if frag.is_single == True:
+                if frag.is_single:
                     if frag.is_secondary:
                         qc_dict[barcode].secondary += 1
                         if not keep_secondary:
@@ -364,7 +364,7 @@ def snap_pre(
                         if not keep_discordant:
                             continue
                 # 3. check fragment size
-                if frag.flen > min_flen and frag.flen < max_flen:
+                if min_flen < frag.flen < max_flen:
                     qc_dict[barcode].proper_flen += 1
                 else:
                     continue
@@ -396,7 +396,7 @@ def snap_pre(
                 if barcode not in barcode_dict:
                     break
                 # total number of sequencing fragments (exclude supplementary alignments)
-                if frag.is_secondary == False:
+                if not frag.is_secondary:
                     qc_dict[barcode].total += 1
                 # 1. Filter non-uniquely mapped fragments
                 if frag.mapq < min_mapq:
@@ -404,7 +404,7 @@ def snap_pre(
                 qc_dict[barcode].mapped += 1
                 # 2. if it is single read, keep it only if keep_unpaired is true
                 #    if it is paired, keep it only if it is approperly paired
-                if frag.is_single == True:
+                if frag.is_single:
                     if frag.is_secondary:
                         qc_dict[barcode].secondary += 1
                         if not keep_secondary:
@@ -422,7 +422,7 @@ def snap_pre(
                             continue
 
                 # 3. check fragment size
-                if frag.flen > min_flen and frag.flen < max_flen:
+                if min_flen < frag.flen < max_flen:
                     qc_dict[barcode].proper_flen += 1
                 else:
                     continue

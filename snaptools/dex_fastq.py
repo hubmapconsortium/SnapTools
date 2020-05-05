@@ -25,12 +25,13 @@ THE SOFTWARE.
 
 """
 
+import bz2
+import collections
+import gzip
 import os.path
 import sys
-import gzip
-import collections
+
 from snaptools.utilities import file_type
-import bz2
 
 
 def dex_fastq(input_fastq, output_fastq, index_fastq_list):

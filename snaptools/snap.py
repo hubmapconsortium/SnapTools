@@ -25,22 +25,22 @@ THE SOFTWARE.
 
 """
 
-import sys
-import os
-import collections
-import gzip
-import operator
 import argparse
-import datetime
-import time
-import subprocess
-import shlex
-import tempfile
-import warnings
-from builtins import str
 import bz2
+import collections
+import datetime
+import gzip
 import itertools
 import multiprocessing
+import operator
+import os
+import shlex
+import subprocess
+import sys
+import tempfile
+import time
+import warnings
+from builtins import str
 
 try:
     import snaptools.utilities

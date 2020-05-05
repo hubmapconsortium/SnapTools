@@ -1,6 +1,6 @@
-from collections import defaultdict
 import gzip
 import re
+from collections import defaultdict
 
 GTF_HEADER = [
     "seqname",

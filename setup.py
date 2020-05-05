@@ -1,4 +1,5 @@
-from os.path import dirname, join as ospj
+from os.path import dirname
+from os.path import join as ospj
 
 from setuptools import setup
 

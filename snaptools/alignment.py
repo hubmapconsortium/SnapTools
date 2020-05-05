@@ -1,13 +1,15 @@
-import sys
-import os
-import subprocess
-import shlex
-import tempfile
-import pysam
-from snaptools.utilities import file_type
-import gzip
 import bz2
 import collections
+import gzip
+import os
+import shlex
+import subprocess
+import sys
+import tempfile
+
+import pysam
+
+from snaptools.utilities import file_type
 
 
 def count_barcode_cov_from_fastq(fname):

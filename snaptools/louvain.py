@@ -25,11 +25,12 @@ THE SOFTWARE.
 
 """
 
-import networkx as nx
-import community
-from argparse import ArgumentParser, RawTextHelpFormatter
 import os
 import sys
+from argparse import ArgumentParser, RawTextHelpFormatter
+
+import community
+import networkx as nx
 
 
 def louvain(edge_file, output_file, resolution):

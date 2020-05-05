@@ -1,12 +1,13 @@
-import os
-import sys
-import gzip
-import bz2
-import pysam
 import argparse
-import pybedtools
-import re
+import bz2
 import collections
+import gzip
+import os
+import re
+import sys
+
+import pybedtools
+import pysam
 
 
 def file_type(filename):

@@ -25,17 +25,17 @@ THE SOFTWARE.
 
 """
 
-import sys
-import os
+import argparse
 import collections
+import datetime
 import gzip
 import operator
-import argparse
-import datetime
-import time
-import subprocess
+import os
 import shlex
+import subprocess
+import sys
 import tempfile
+import time
 import warnings
 
 try:

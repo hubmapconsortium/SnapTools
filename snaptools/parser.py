@@ -25,8 +25,9 @@ THE SOFTWARE.
 
 """
 
-import sys
 import argparse
+import sys
+
 import snaptools
 from snaptools.utilities import str2bool
 

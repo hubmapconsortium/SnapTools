@@ -1,3 +1,8 @@
-test/*
+*.pyc
+.idea
+__pycache__
+build
+dist
+snaptools.egg-info
 snaptools_test/*
-dist/*
+test/*

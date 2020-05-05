@@ -1,6 +1,13 @@
+from os.path import dirname, join as ospj
+
 from setuptools import setup
 
-snaptools_version = '1.4.8'
+# Duplicating this functionality here and in snaptools/__init__.py
+# isn't *great*, but code in the snaptools package can't access this
+# file, and importing from the not-yet-installed package code seems
+# like a terrible idea
+with open(ospj(dirname(__file__), 'snaptools/version.txt')) as f:
+    snaptools_version = f.read().strip()
 
 setup(
       name='snaptools',
@@ -21,6 +28,9 @@ setup(
           "python-louvain",
           "future"
       ],
+      package_data={
+          "": ["*.txt"],
+      },
       keywords = ["Bioinformatics pipeline",
                   "Single cell analysis",
                   "Epigenomics",
@@ -30,8 +40,3 @@ setup(
                   "Functional genomics"],
       scripts = ["bin/snaptools"],      
       zip_safe=False)
-
-if __name__ == '__main__':
-    f = open("snaptools/__init__.py",'w')
-    f.write("__version__ = \'"+snaptools_version+"\'"+"\n")
-    f.close()
